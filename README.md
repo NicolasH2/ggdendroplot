@@ -13,6 +13,8 @@ Load the package, create your first brace in ggplot:
 ``` r
 library(ggbrace)
 library(ggplot2)
+
+#a test data.frame
 df <- matrix(rnorm(128), ncol = 8)
 colnames(df) <- paste0("a",seq(ncol(df)))
 
