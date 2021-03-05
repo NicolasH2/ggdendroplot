@@ -10,7 +10,7 @@ devtools::install_github("solatar/ggdendroplot")
 # Default dendrogram
 Load the package, create your first brace in ggplot. You can change the clustering algorithm via the clustmethod arguement ("complete" as default, check out ?hclust to see what other options there are for the method).
 ``` r
-library(ggbrace)
+library(ggdendroplot)
 library(ggplot2)
 
 #a test data.frame
