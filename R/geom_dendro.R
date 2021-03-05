@@ -43,6 +43,7 @@
 #' ggplot() + geom_dendro(clust, ylim=c(3,0))
 #' ggplot() + geom_dendro(clust, size=2, color="blue", linetype="dashed")
 #' ggplot() + geom_dendro(clust, size=4, lineend="round")
+#' ggplot() + geom_dendro(clust, axis.labels = F)
 #'
 geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.labels=TRUE, ...){
 
