@@ -49,6 +49,12 @@ ggplot() + geom_dendro(clust, ylim=c(3,0))
 ```
 <img src="readme_files/dendro_up.png"/>
 
+You can also disable that geom_dendro displays the sample names:
+``` r
+ggplot() + geom_dendro(clust, axis.labels = F)
+```
+<img src="readme_files/dendro_nolabels.png"/>
+
 # Custom dendrogram
 You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. 
 Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
