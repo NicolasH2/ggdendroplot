@@ -1,6 +1,6 @@
 # devtools::document()
 
-#' create a dendrogram as several geom_path layers ready to be added to a ggplot object
+#' create a dendrogram in ggplot2
 #'
 #' Imports:
 #' ggplot2
