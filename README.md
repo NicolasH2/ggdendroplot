@@ -1,5 +1,5 @@
 # ggdendroplot
-Draws highly modifiable dendrograms for [ggplot2](https://ggplot2.tidyverse.org/). ggdendroplot takes a data.frame or matrix as an input, where the columns are to be clustered (by their rows). ggdendroplot then uses the dist and hclust function from R stats to generate a cluster matrix and an object that contains data about the hierarchical clustering. The data is then vizualized using ggplot2's geom_path layer.
+Draws highly modifiable dendrograms for [ggplot2](https://ggplot2.tidyverse.org/) in [R](https://www.r-project.org). ggdendroplot takes a data.frame or matrix as an input, where the columns are to be clustered (by their rows). ggdendroplot then uses the dist and hclust function from R [stats](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/stats-package.html) to generate a cluster matrix and an object that contains data about the hierarchical clustering. The data is then vizualized using ggplot2's geom_path layer.
 
 # Installation
 Install the ggdendroplot package from the git repository:
