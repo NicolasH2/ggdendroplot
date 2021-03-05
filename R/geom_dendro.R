@@ -8,11 +8,10 @@
 #' @inheritParams ggplot2::geom_path
 #' @import ggplot2
 #'
-#' @param data data.frame, columns will be clustered based on their rows.
+#' @param clust hclust object based on their rows.
 #' @param xlim, vector with 2 numbers, on the x axis the dendrogram will beginn at the first number and end at the second.
 #' @param ylim, vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.
 #' @param pointing, string, either "side" or "updown" (default) to indicate where the dendrogram should point.
-#' @param clustmethod string, method to be used by the hclust function (check ?hclust for available methods).
 #' @param axis.labels, boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.
 #' @return a list of several ggplot2 layer objects (geom_path for the dendrogram) that can directly be added to a ggplot2 object
 #' @details the function uses geom_path for the dendrogram, so ... takes all arguements that geom_path would also take, such as color, size, etc.
@@ -21,22 +20,36 @@
 #' library(ggdendroplot)
 #' library(ggplot2)
 #'
+#' #test data.frame
 #' df <- matrix(rnorm(128), ncol = 8)
 #' colnames(df) <- paste0("a",seq(ncol(df)))
 #'
-#' ggplot() + geom_dendro(data=df)
-#' ggplot() + geom_dendro(data=df, pointing="side")
-#' ggplot() + geom_dendro(data=df, xlim=c(3,0))
-#' ggplot() + geom_dendro(data=df, ylim=c(3,0))
-#' ggplot() + geom_dendro(data=df, size=2, color="blue", linetype="dashed")
-#' ggplot() + geom_dendro(data=df, size=4, lineend="round")
+#' #calculate a distance matrix and perform hierarchical clustering
+#' distmatrix <- dist(t(df))
+#' clust <- hclust(distmatrix)
 #'
-geom_dendro <- function(data, xlim=NULL, ylim=NULL, pointing="updown", clustmethod="complete", axis.labels=TRUE, ...){
+#' #produce the graph
+#' ggplot() + geom_dendro(clust)
+#'
+#' #you can access the default label order from clust.
+#' clust$labels[clust$order]
+#'
+#' Note that in geom_dendro, this order is reversed if the limits are defined accordingly (if the first number is greater than the second), e.g.:
+#' ggplot() + geom_dendro(clust, xlim=c(3,0))
+#'
+#' #=================================
+#' #other plot examples
+#' ggplot() + geom_dendro(clust, pointing="side")
+#' ggplot() + geom_dendro(clust, ylim=c(3,0))
+#' ggplot() + geom_dendro(clust, size=2, color="blue", linetype="dashed")
+#' ggplot() + geom_dendro(clust, size=4, lineend="round")
+#'
+geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.labels=TRUE, ...){
 
-  calc <- .plotcalculation(data=data, xlim=xlim, ylim=ylim, pointing=pointing, clustmethod=clustmethod)
-
-  dendro <- calc[["dendro"]] #for the dendrogram
-  plotlabels <- calc[["plotlabels"]] #for labels as axis text
+  #perform the clustering and calculation to get a list of data.frames that can individually be plotted via geom_path
+  calc <- .plotcalculation(clust=clust, xlim=xlim, ylim=ylim, pointing=pointing)
+  dendro <- calc[["dendro"]] #list of geom_path objects for the dendrogram
+  plotlabels <- calc[["plotlabels"]] #for labels as axis text, either a scale_x_continuous or scale_y_continuous object
 
   #plot many geom_paths to create one dendrogram; each path is an item in a list
   output <- lapply(dendro, function(x){
@@ -51,25 +64,27 @@ geom_dendro <- function(data, xlim=NULL, ylim=NULL, pointing="updown", clustmeth
     ))
   })
 
+  #if desired by the user, define axis labels for x or y axis, depending on if the dendrogram points down/up or sideways
   if(axis.labels){
     ggplotlabel <- switch(pointing,
-                          "updown"=scale_x_continuous(breaks=plotlabels$x, labels=plotlabels$label),
-                          "side"=scale_y_continuous(breaks=plotlabels$y, labels=plotlabels$label))
+                          "updown"=ggplot2::scale_x_continuous(breaks=plotlabels$x, labels=plotlabels$label),
+                          "side" = ggplot2::scale_y_continuous(breaks=plotlabels$y, labels=plotlabels$label))
 
-    output <- c(output, ggplotlabel)
+    output <- c(output, ggplotlabel) #combine the dendrogram with the axis label information
   }
 
   return(output)
 }
 
-.plotcalculation <- function(data, xlim, ylim, pointing, clustmethod){
-  distmatrix <- dist(t(data))
-  clust <- hclust(distmatrix, method=clustmethod)
+#perform the calculation to get a list of data.frames that can individually be plotted via geom_path
+.plotcalculation <- function(clust, xlim, ylim, pointing){
+  #========================
+  #extract information from the hierarchical clustering
+  ranks <- clust$order #column numbers in the order in which they occur in the dendrogram
+  samples <- clust$labels[ranks] #column names in the order that is given by ranks
+  dflabel <- data.frame(label=samples, x=seq(length(samples)), y=0) #data.frame with the columns names, and their positions in x (1-n) and y (all 0). This data.frame can later easily be modified in the same way as the dendrogram dataframe (shifting and rotating in the x-y space)
 
-  ranks <- clust$order
-  samples <- clust$labels[ranks]
-  dflabel <- data.frame(label=samples, x=seq(length(samples)), y=0)
-
+  #confusingRanks gives the positions of each column in the original column order
   confusingRanks <- sapply(seq(length(ranks)), function(x) which(ranks==x))
 
   #========================
@@ -107,15 +122,16 @@ geom_dendro <- function(data, xlim=NULL, ylim=NULL, pointing="updown", clustmeth
   if(is.null(xlim)) xlim <- extremes[1:2]
   if(is.null(ylim)) ylim <- extremes[3:4]
 
-
-  #relevel the coordinates from 0 to 1 for both x and y
+  #========================
+  #df4 relevels the coordinates from 0 to 1 for both x and y
   df4 <- df3
   df4$x <- (df3$x-extremes[1])/delta[1]
   df4$y <- (df3$y-extremes[3])/delta[2]
   dflabel$x <- (dflabel$x-extremes[1])/delta[1]
   dflabel$y <- (dflabel$y-extremes[3])/delta[2]
 
-  #relevel the coordinates to fit xlim and ylim (if not user-defined, the original values are taken)
+  #========================
+  #df5 relevels the coordinates to fit xlim and ylim (if not user-defined, the original values are taken)
   df5 <- df4
   df5$x <- (xlim[2]-xlim[1])*df4$x + xlim[1]
   df5$y <- (ylim[2]-ylim[1])*df4$y + ylim[1]
@@ -124,6 +140,8 @@ geom_dendro <- function(data, xlim=NULL, ylim=NULL, pointing="updown", clustmeth
 
   labelsInOrder=dflabel$label[order(dflabel$x, dflabel$y)]
 
+  #========================
+  #df6 splits the data.frame into list, one item for each arch
   df6 <- split(df5, df5$z)
 
   output <- list(dendro=df6, plotlabels=dflabel, labelsInOrder=labelsInOrder)
