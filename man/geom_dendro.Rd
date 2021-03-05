@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom_dendro.R
 \name{geom_dendro}
 \alias{geom_dendro}
-\title{create a dendrogram as several geom_path layers ready to be added to a ggplot object}
+\title{create a dendrogram in ggplot2}
 \usage{
 geom_dendro(
   clust,
@@ -14,15 +14,15 @@ geom_dendro(
 )
 }
 \arguments{
-\item{clust}{hclust object based on their rows.}
+\item{clust}{hclust object.}
 
-\item{xlim, }{vector with 2 numbers, on the x axis the dendrogram will beginn at the first number and end at the second.}
+\item{xlim}{vector with 2 numbers, on the x axis the dendrogram will beginn at the first number and end at the second.}
 
-\item{ylim, }{vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.}
+\item{ylim}{vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.}
 
-\item{pointing, }{string, either "side" or "updown" (default) to indicate where the dendrogram should point.}
+\item{pointing}{string, either "side" or "updown" (default) to indicate where the dendrogram should point.}
 
-\item{axis.labels, }{boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.}
+\item{axis.labels}{boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
@@ -66,5 +66,6 @@ ggplot() + geom_dendro(clust, pointing="side")
 ggplot() + geom_dendro(clust, ylim=c(3,0))
 ggplot() + geom_dendro(clust, size=2, color="blue", linetype="dashed")
 ggplot() + geom_dendro(clust, size=4, lineend="round")
+ggplot() + geom_dendro(clust, axis.labels = F)
 
 }
