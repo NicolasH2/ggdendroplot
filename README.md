@@ -26,23 +26,29 @@ Change the order:
 ``` r
 ggplot() + geom_dendro(df, xlim=c(3,0))
 ```
+<img src="readme_files/dendro_down_flipped.png"/>
 
 Change the orientation:
 ``` r
 ggplot() + geom_dendro(df, pointing="side")
 ```
+<img src="readme_files/dendro_left.png"/>
 
 Change the placement by defining xlim and ylim. With this you can also invert the graph if the first number of xlim or ylim is higher than the second:
 ``` r
 ggplot() + geom_dendro(df, ylim=c(3,0))
 ```
+<img src="readme_files/dendro_up.png"/>
 
 ## Custom dendrogram
 You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
 ``` r
 ggplot() + geom_dendro(df, size=2, color="blue", linetype="dashed")
 ```
+<img src="readme_files/dendro_custom.png"/>
+
 The lineend arguement introduces suttle changes, effecting only how the end of the lines look. Possible options are: butt (default), square, round.
 ``` r
 ggplot() + geom_dendro(df, size=4, lineend="round")
 ```
+<img src="readme_files/dendro_custom2.png"/>
