@@ -82,6 +82,7 @@ geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.lab
   #extract information from the hierarchical clustering
   ranks <- clust$order #column numbers in the order in which they occur in the dendrogram
   samples <- clust$labels[ranks] #column names in the order that is given by ranks
+  if(is.null(samples)) stop("Please provide column names before you calculate the distance matrix.")
   dflabel <- data.frame(label=samples, x=seq(length(samples)), y=0) #data.frame with the columns names, and their positions in x (1-n) and y (all 0). This data.frame can later easily be modified in the same way as the dendrogram dataframe (shifting and rotating in the x-y space)
 
   #confusingRanks gives the positions of each column in the original column order
