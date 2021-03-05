@@ -55,12 +55,13 @@ geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.lab
   #plot many geom_paths to create one dendrogram; each path is an item in a list
   output <- lapply(dendro, function(x){
     return(ggplot2::layer(
-      data=x,
-      mapping=ggplot2::aes(x=x, y=y),
-      geom="path",
-      stat="identity",
-      position="identity",
-      show.legend=FALSE,
+      data = x,
+      mapping = ggplot2::aes(x=x, y=y),
+      geom = "path",
+      stat = "identity",
+      position = "identity",
+      show.legend = FALSE,
+      inherit.aes = FALSE,
       params=list(...)
     ))
   })
