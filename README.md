@@ -4,7 +4,7 @@ An [R](https://www.r-project.org) package that draws highly modifiable dendrogra
 # Installation
 Install the ggdendroplot package from the git repository:
 ``` r
-devtools::install_github("solatar/dendroplot")
+devtools::install_github("solatar/ggdendroplot")
 ```
 
 # Default dendrogram
