@@ -41,13 +41,15 @@ ggplot() + geom_dendro(df, ylim=c(3,0))
 <img src="readme_files/dendro_up.png"/>
 
 ## Custom dendrogram
-You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
+You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. 
+Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
 ``` r
 ggplot() + geom_dendro(df, size=2, color="blue", linetype="dashed")
 ```
 <img src="readme_files/dendro_custom.png"/>
 
-The lineend arguement introduces suttle changes, effecting only how the end of the lines look. Possible options are: butt (default), square, round.
+The lineend arguement introduces suttle changes, effecting only how the ends of the lines look.
+Possible options are: butt (default), square, round.
 ``` r
 ggplot() + geom_dendro(df, size=4, lineend="round")
 ```
