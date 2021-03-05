@@ -1,14 +1,13 @@
 # ggdendroplot
+Draws highly modifiable dendrograms for [ggplot2](https://ggplot2.tidyverse.org/).
 
-Draws dendrograms for [ggplot2](https://ggplot2.tidyverse.org/) that can be modified by you as you want.
-
-## Installation
+# Installation
 Install the ggdendroplot package from the git repository:
 ``` r
 devtools::install_github("solatar/dendroplot")
 ```
 
-## Default dendrogram
+# Default dendrogram
 Load the package, create your first brace in ggplot:
 ``` r
 library(ggbrace)
@@ -40,7 +39,7 @@ ggplot() + geom_dendro(df, ylim=c(3,0))
 ```
 <img src="readme_files/dendro_up.png"/>
 
-## Custom dendrogram
+# Custom dendrogram
 You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. 
 Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
 ``` r
