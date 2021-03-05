@@ -16,6 +16,6 @@ library(ggplot2)
 df <- matrix(rnorm(128), ncol = 8)
 colnames(df) <- paste0("a",seq(ncol(df)))
 
-ggplot() + geom_dendro(data=df)
+ggplot() + geom_dendro(df)
 ```
 <img src="readme_files/dendro_down.png"/>
