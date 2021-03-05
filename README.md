@@ -8,7 +8,7 @@ Install the ggdendroplot package from the git repository:
 devtools::install_github("solatar/dendroplot")
 ```
 
-## Default braces
+## Default dendrogram
 Load the package, create your first brace in ggplot:
 ``` r
 library(ggbrace)
@@ -21,3 +21,28 @@ colnames(df) <- paste0("a",seq(ncol(df)))
 ggplot() + geom_dendro(df)
 ```
 <img src="readme_files/dendro_down.png"/>
+
+Change the order:
+``` r
+ggplot() + geom_dendro(df, xlim=c(3,0))
+```
+
+Change the orientation:
+``` r
+ggplot() + geom_dendro(df, pointing="side")
+```
+
+Change the placement by defining xlim and ylim. With this you can also invert the graph if the first number of xlim or ylim is higher than the second:
+``` r
+ggplot() + geom_dendro(df, ylim=c(3,0))
+```
+
+## Custom dendrogram
+You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
+``` r
+ggplot() + geom_dendro(df, size=2, color="blue", linetype="dashed")
+```
+The lineend arguement introduces suttle changes, effecting only how the end of the lines look. Possible options are: butt (default), square, round.
+``` r
+ggplot() + geom_dendro(df, size=4, lineend="round")
+```
