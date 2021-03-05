@@ -30,7 +30,7 @@ Extract the sample order from the hclust matrix. This is necessary if you want t
 clust$labels[clust$order]
 ```
 
-Change the order. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0). Note that in order to get the right order, you now need to reverse the information you extracted from the hclust object.
+Change the order. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0). Note that now, if you extract the order from the hclust object, you will need to reverse it to mimic the order of the dendrogram.
 ``` r
 ggplot() + geom_dendro(clust, xlim=c(3,0))
 rev(clust$labels[clust$order])
