@@ -1,0 +1,104 @@
+seeqR::main()
+x <- matrix(rnorm(100), nrow = 8)
+rownames(x) <- paste0("a",seq(nrow(x)))
+a <- dist(x)
+clust <- hclust(a, method="complete")
+ggdendro::ggdendrogram(clust)
+ggplot() + geom_dendro(clust)
+ggplot() + geom_dendro(x, axis.labels = T, pointing = "side", ylim = c(3,12))
+
+
+geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", show.labels=TRUE, axis.labels=TRUE, ...){
+  ranks <- clust$order
+  samples <- clust$labels[ranks]
+  dflabel <- data.frame(label=samples, x=seq(length(samples)), y=0)
+
+  confusingRanks <- sapply(seq(length(ranks)), function(x) which(ranks==x))
+
+  #========================
+  #df is a data.frame with one row for each arch
+  df <- as.data.frame(clust$merge) %>% mutate(y=clust$height)
+  dfy <- data.frame(y1=apply(df, 1, function(x) ifelse(x[1]<0, 0, df[x[1],"y"])),
+                    y2=apply(df, 1, function(x) ifelse(x[2]<0, 0, df[x[2],"y"])) )
+
+  #needs to be a loop because the rows are calculated successively and depend on those that were calculated before
+  dfx <- data.frame()
+  for(i in 1:nrow(df)){
+    dfx[i,1] <- ifelse(df[i,1]<0, confusingRanks[abs(df[i,1])], mean(c(dfx[df[i,1],1], dfx[df[i,1],2])))
+    dfx[i,2] <- ifelse(df[i,2]<0, confusingRanks[abs(df[i,2])], mean(c(dfx[df[i,2],1], dfx[df[i,2],2])))
+  }
+  colnames(dfx) <- c("x1","x2")
+  df <- cbind(df, dfy, dfx)
+
+  #========================
+  #df2 is a list of data.frames (one for each arch), listing their x and y coordinates for a geom_path
+  df2 <- lapply(seq(nrow(df)), function(xyz){
+    rx <- unlist(df[xyz,])
+    return( data.frame(x=c(rx[6], rx[6], rx[7], rx[7]), y=c(rx[4], rx[3], rx[3], rx[5]), z=xyz ))
+  })
+
+  #========================
+  #df3 rbinds all data.frames from df2, with one column for x, y and z (z just stats which arch it is)
+  df3 <- do.call(rbind, df2)
+  if(pointing %in% "side"){
+    colnames(df3) <- c("y","x","z")
+    colnames(dflabel) <- c("label","y","x")
+  }
+
+  extremes <- c(range(df3$x), range(df3$y))
+  delta <- c(abs(extremes[2]-extremes[1]), abs(extremes[4]-extremes[3]))
+  if(is.null(xlim)) xlim <- extremes[1:2]
+  if(is.null(ylim)) ylim <- extremes[3:4]
+
+
+  #relevel the coordinates from 0 to 1 for both x and y
+  df4 <- df3
+  df4$x <- (df3$x-extremes[1])/delta[1]
+  df4$y <- (df3$y-extremes[3])/delta[2]
+  dflabel$x <- (dflabel$x-extremes[1])/delta[1]
+  dflabel$y <- (dflabel$y-extremes[3])/delta[2]
+
+  #relevel the coordinates to fit xlim and ylim (if not user-defined, the original values are taken)
+  df5 <- df4
+  df5$x <- (xlim[2]-xlim[1])*df4$x + xlim[1]
+  df5$y <- (ylim[2]-ylim[1])*df4$y + ylim[1]
+  dflabel$x <- (xlim[2]-xlim[1])*dflabel$x + xlim[1]
+  dflabel$y <- (ylim[2]-ylim[1])*dflabel$y + ylim[1]
+
+  df6 <- split(df5, df5$z)
+
+  output1 <- lapply(df6, function(x, ...){
+    return(ggplot2::layer(
+      data=x,
+      mapping=ggplot2::aes(x=x, y=y),
+      geom="path",
+      stat="identity",
+      position="identity",
+      show.legend=FALSE,
+      params=list(...)
+    ))
+  })
+  if(show.labels){
+    output2 <- ggplot2::layer(
+      data=dflabel,
+      mapping=ggplot2::aes(x=x, y=y, label=label),
+      geom="text",
+      stat="identity",
+      position="identity",
+      show.legend=FALSE,
+      params=list(...)
+    )
+    if(pointing %in% "updown" & ylim[1]<ylim[2]){
+      output2$aes_params[["vjust"]] <- 1
+    }else if(pointing %in% "updown" & ylim[1]>ylim[2]){
+      output2$aes_params[["vjust"]] <- 0
+    }else if(pointing %in% "side" & xlim[1]<xlim[2]){
+      output2$aes_params[["hjust"]] <- 1
+    }else if(pointing %in% "side" & xlim[1]>xlim[2]){
+      output2$aes_params[["hjust"]] <- 0
+    }else{NULL}
+
+  }
+  return(c(output1, output2))
+}
+

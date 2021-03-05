@@ -1,0 +1,25 @@
+{
+    "id": "9C084B7F",
+    "path": "~/bioinformatics/ggdendroplot/R/geom_dendro.R",
+    "project_path": "R/geom_dendro.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1614929393099.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "tempName": "Untitled1",
+        "cursorPosition": "0,2",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1614935809,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1614935809263,
+    "read_only": false,
+    "read_only_alternatives": []
+}
