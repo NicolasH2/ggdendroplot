@@ -1,6 +1,6 @@
 Package: ggdendroplot
 Type: Package
-Title: Create dendrograms for ggplot
+Title: Create dendrograms for ggplot2
 Depends: R (>= 3.6.0), stats
 Imports: ggplot2 (>= 3.3.1)
 Version: 0.1.0
