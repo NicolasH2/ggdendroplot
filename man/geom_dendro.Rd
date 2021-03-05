@@ -5,25 +5,22 @@
 \title{create a dendrogram as several geom_path layers ready to be added to a ggplot object}
 \usage{
 geom_dendro(
-  data,
+  clust,
   xlim = NULL,
   ylim = NULL,
   pointing = "updown",
-  clustmethod = "complete",
   axis.labels = TRUE,
   ...
 )
 }
 \arguments{
-\item{data}{data.frame, columns will be clustered based on their rows.}
+\item{clust}{hclust object based on their rows.}
 
 \item{xlim, }{vector with 2 numbers, on the x axis the dendrogram will beginn at the first number and end at the second.}
 
 \item{ylim, }{vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.}
 
 \item{pointing, }{string, either "side" or "updown" (default) to indicate where the dendrogram should point.}
-
-\item{clustmethod}{string, method to be used by the hclust function (check ?hclust for available methods).}
 
 \item{axis.labels, }{boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.}
 
@@ -46,14 +43,28 @@ the function uses geom_path for the dendrogram, so ... takes all arguements that
 library(ggdendroplot)
 library(ggplot2)
 
+#test data.frame
 df <- matrix(rnorm(128), ncol = 8)
 colnames(df) <- paste0("a",seq(ncol(df)))
 
-ggplot() + geom_dendro(data=df)
-ggplot() + geom_dendro(data=df, pointing="side")
-ggplot() + geom_dendro(data=df, xlim=c(3,0))
-ggplot() + geom_dendro(data=df, ylim=c(3,0))
-ggplot() + geom_dendro(data=df, size=2, color="blue", linetype="dashed")
-ggplot() + geom_dendro(data=df, size=4, lineend="round")
+#calculate a distance matrix and perform hierarchical clustering
+distmatrix <- dist(t(df))
+clust <- hclust(distmatrix)
+
+#produce the graph
+ggplot() + geom_dendro(clust)
+
+#you can access the default label order from clust.
+clust$labels[clust$order]
+
+Note that in geom_dendro, this order is reversed if the limits are defined accordingly (if the first number is greater than the second), e.g.:
+ggplot() + geom_dendro(clust, xlim=c(3,0))
+
+#=================================
+#other plot examples
+ggplot() + geom_dendro(clust, pointing="side")
+ggplot() + geom_dendro(clust, ylim=c(3,0))
+ggplot() + geom_dendro(clust, size=2, color="blue", linetype="dashed")
+ggplot() + geom_dendro(clust, size=4, lineend="round")
 
 }
