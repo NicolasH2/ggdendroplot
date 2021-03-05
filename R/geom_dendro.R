@@ -9,10 +9,10 @@
 #' @import ggplot2
 #'
 #' @param clust hclust object.
-#' @param xlim, vector with 2 numbers, on the x axis the dendrogram will beginn at the first number and end at the second.
-#' @param ylim, vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.
-#' @param pointing, string, either "side" or "updown" (default) to indicate where the dendrogram should point.
-#' @param axis.labels, boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.
+#' @param xlim vector with 2 numbers, on the x axis the dendrogram will beginn at the first number and end at the second.
+#' @param ylim vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.
+#' @param pointing string, either "side" or "updown" (default) to indicate where the dendrogram should point.
+#' @param axis.labels boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.
 #' @return a list of several ggplot2 layer objects (geom_path for the dendrogram) that can directly be added to a ggplot2 object
 #' @details the function uses geom_path for the dendrogram, so ... takes all arguements that geom_path would also take, such as color, size, etc.
 #' @export
