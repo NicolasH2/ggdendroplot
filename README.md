@@ -47,8 +47,8 @@ When we simply add the dendrogram to the plot, we see that it is not in the corr
 hmplot + geom_dendro(colclus)
 hmplot + geom_dendro(colclus, ylim=c(17,20))
 ```
-<img src="readme_files/dendro_heatmap_2.png"/>
-<img src="readme_files/dendro_heatmap_3.png"/>
+<img src="readme_files/dendro_heatmap2.png"/>
+<img src="readme_files/dendro_heatmap3.png"/>
 
 # Custom dendrogram
 
