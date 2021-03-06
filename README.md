@@ -27,7 +27,7 @@ ggplot() + geom_dendro(colclus)
 ```
 <img src="readme_files/dendro_down.png"/>
 
-Often, we dont't just want a dendrogram, but also a heatmap. ggdendroplot provides the function hmReady, which takes the original table and the clustering you made, and outputs a ready-to-plot data.frame. This data.frame has columns x and y for coordinates, and a value column for the color in the heatmap. It also has the columns rowid and variable, which contain the column and row names of the original table.
+Often, we dont't just want a dendrogram, but also a heatmap. ggdendroplot provides the function hmReady, which takes the original table and the clustering you made. It uses [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) to output a ready-to-plot data.frame. This data.frame has columns x and y for coordinates, and a value column for the color in the heatmap. It also has the columns rowid and variable, which contain the row and column names of the original table.
 
 Here we use the data.frame for geom_tile and additionally set the x axis to display its labels in a 45 degree angle. The original column labels will be added later, when we add the heatmap.
 
