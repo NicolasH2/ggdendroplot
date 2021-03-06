@@ -8,7 +8,8 @@ devtools::install_github("solatar/ggdendroplot")
 ```
 
 # Default dendrogram
-Load the package, create your first brace in ggplot. You can change the clustering algorithm via the clustmethod arguement ("complete" as default, check out ?hclust to see what other options there are for the method).
+We build a random example matrix, called df. We use the functions dist and hclust from base R to get hclust objects. We cluster rows (rowclus) and columns (colclus) individually. You can change the distance matrix and also clustering algorithm by checking out the respective functions' help pages (?dist and ?hclust).
+Then we can directly take one of these clusterings and vizualize a dendrogram from it.
 ``` r
 library(ggdendroplot)
 library(ggplot2)
@@ -27,12 +28,12 @@ ggplot() + geom_dendro(colclus)
 ```
 <img src="readme_files/dendro_down.png"/>
 
-Often, we dont't just want a dendrogram, but also a heatmap. ggdendroplot provides the function hmReady, which takes the original table and the clustering you made. It uses [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) to output a ready-to-plot data.frame. This data.frame has columns x and y for coordinates, and a value column for the color in the heatmap. It also has the columns rowid and variable, which contain the row and column names of the original table.
+Often, we dont't just want a dendrogram, but also a heatmap. ggdendroplot provides the function hmReady, which takes the original table and the clustering you made. It uses [reshape2](https://cran.r-project.org/web/packages/reshape2/index.html) to output a ready-to-plot data.frame. This data.frame has columns x and y for coordinates, and a value column for the color in the heatmap. It also has the columns rowid and variable, which contain the row and column names of the original table. We can supply colclus or rowclus or both to get a dataframe that is clustered accordingly.
 
-Here we use the data.frame for geom_tile and additionally set the x axis to display its labels in a 45 degree angle. The original column labels will be added later, when we add the heatmap.
+Here we only use the column clustering (colclus) as a simple example.
 
 ``` r
-hm <- hmReady(df, colclus=colclus)
+hm <- hmReady(df, colclus=colclus, rowclus=rowclus)
 
 hmplot <- ggplot() + 
   geom_tile(data=hm, aes(x=x, y=y, fill=value)) +
@@ -47,8 +48,15 @@ When we simply add the dendrogram to the plot, we see that it is not in the corr
 hmplot + geom_dendro(colclus)
 hmplot + geom_dendro(colclus, ylim=c(17,20))
 ```
-<img src="readme_files/dendro_heatmap2.png"/>
-<img src="readme_files/dendro_heatmap3.png"/>
+<img src="readme_files/dendro_heatmap23.png"/>
+
+We can add a second dendrogram that shows the clustering of the rows. For that we have to speficy that it is pointing sideways.
+``` r
+hmplot + 
+  geom_dendro(colclus, ylim=c(17,20)) +
+  geom_dendro(rowclus, xlim=c(9,11), pointing="side")
+```
+<img src="readme_files/dendro_heatmap4.png"/>
 
 # Custom dendrogram
 
