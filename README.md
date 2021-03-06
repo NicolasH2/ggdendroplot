@@ -60,13 +60,14 @@ hmplot +
 
 # Custom dendrogram
 
-Change the order. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0). Note that now, the dendrogram will not line up with your heatmap and will give you a false impression, which is why this reversal is only possible when you set the failsafe arguement to FALSE.
+Reverse the order or direction. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0).
+In the following example case we reverse the order because we change xlim, while the pointing arguement is in its default state "updown" (you would also achieve a order reversal by changing ylim while pointing="side"). Note that now, the dendrogram will not line up with your heatmap and will give you a false impression, which is why this reversal is only possible when you set the failsafe arguement to FALSE.
 ``` r
 ggplot() + geom_dendro(colclus, xlim=c(3,0), failsafe=FALSE)
 ```
 <img src="readme_files/dendro_down_flipped.png"/>
 
-Change the placement by defining xlim and ylim. With this you can also invert the graph if the first number of xlim or ylim is higher than the second:
+When we change ylim while pointing=updown", we reverse the direction, which is less problematic (the same for changing xlim while pointing="side").
 ``` r
 ggplot() + geom_dendro(colclus, ylim=c(3,0))
 ```
