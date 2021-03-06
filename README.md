@@ -69,6 +69,14 @@ hmplot +
 
 
 # Custom dendrogram
+You can tell ggdendroplot to color the clusters according to how they group on a certain level. Imagine a horizonal line being drawn: every cluster below that line has the same color as the cluster it originated from at that line. The integer you provide refers to the cluster level, so for this example we select the 5th cluster, counting from bottom to top.
+You can customize the colors if you want.
+
+``` r
+ggplot() + geom_dendro(colclus, dendrocut=5)
+ggplot() + geom_dendro(colclus, dendrocut=5, groupCols=c("green","orange","gray20","purple"))
+```
+<img src="readme_files/dendro_color.png"/>
 
 Reverse the order or direction. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0).
 In the following example case we reverse the order because we change xlim, while the pointing arguement is in its default state "updown" (you would also achieve a order reversal by changing ylim while pointing="side"). Note that now, the dendrogram will not line up with your heatmap and will give you a false impression, which is why this reversal is only possible when you set the failsafe arguement to FALSE.
