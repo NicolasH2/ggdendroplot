@@ -13,59 +13,73 @@ Load the package, create your first brace in ggplot. You can change the clusteri
 library(ggdendroplot)
 library(ggplot2)
 
-#a test data.frame
-df <- matrix(rnorm(128), ncol = 8)
-colnames(df) <- paste0("a",seq(ncol(df)))
+#a test data.frame, with columns drawing values from 2 different standard distributions
+df <- matrix(c(rnorm(64, mean=0), rnorm(64, mean=1)), ncol = 8, dimnames=list(
+  rownames=paste0("trait",seq(16)),
+  colnames=paste0("sample",seq(8))
+))
 
 #perform hierarchical clustering
-distmatrix <- dist(t(df))
-clust <- hclust(distmatrix)
+rowclus <- hclust(dist( df ))    #cluster the rows
+colclus <- hclust(dist( t(df) )) #cluster the columns
 
-ggplot() + geom_dendro(clust)
+ggplot() + geom_dendro(colclus)
 ```
 <img src="readme_files/dendro_down.png"/>
 
-Extract the sample order from the hclust matrix. This is necessary if you want to fit other ggplot layers to the plot in the same order
-``` r
-clust$labels[clust$order]
-```
+Often, we dont't just want a dendrogram, but also a heatmap. ggdendroplot provides the function hmReady, which takes the original table and the clustering you made, and outputs a ready-to-plot data.frame. This data.frame has columns x and y for coordinates, and a value column for the color in the heatmap. It also has the columns rowid and variable, which contain the column and row names of the original table.
 
-Change the order. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0). Note that now, if you extract the order from the hclust object, you will need to reverse it to mimic the order of the dendrogram.
+Here we use the data.frame for geom_tile and additionally set the x axis to display its labels in a 45 degree angle. The original column labels will be added later, when we add the heatmap.
+
 ``` r
-ggplot() + geom_dendro(clust, xlim=c(3,0))
-rev(clust$labels[clust$order])
+hm <- hmReady(df, colclus=colclus)
+
+hmplot <- ggplot() + 
+  geom_tile(data=hm, aes(x=x, y=y, fill=value)) +
+  theme(axis.text.x=element_text(angle=45, hjust=1))
+
+print(hmplot)
+```
+<img src="readme_files/dendro_heatmap.png"/>
+
+When we simply add the dendrogram to the plot, we see that it is not in the correct place. We can move it up by specifying the ylim arguement.
+``` r
+hmplot + geom_dendro(colclus)
+hmplot + geom_dendro(colclus, ylim=c(17,20))
+```
+<img src="readme_files/dendro_heatmap_2.png"/>
+<img src="readme_files/dendro_heatmap_3.png"/>
+
+# Custom dendrogram
+
+Change the order. This happens when you set the limits so that the first limit number (here: 3) is higher than the second (here: 0). Note that now, the dendrogram will not line up with your heatmap and will give you a false impression, which is why this reversal is only possible when you set the failsafe arguement to FALSE.
+``` r
+ggplot() + geom_dendro(colclus, xlim=c(3,0), failsafe=FALSE)
 ```
 <img src="readme_files/dendro_down_flipped.png"/>
 
-Change the orientation:
-``` r
-ggplot() + geom_dendro(clust, pointing="side")
-```
-<img src="readme_files/dendro_left.png"/>
-
 Change the placement by defining xlim and ylim. With this you can also invert the graph if the first number of xlim or ylim is higher than the second:
 ``` r
-ggplot() + geom_dendro(clust, ylim=c(3,0))
+ggplot() + geom_dendro(colclus, ylim=c(3,0))
 ```
 <img src="readme_files/dendro_up.png"/>
 
-You can also disable that geom_dendro displays the sample names:
+You can disable that geom_dendro displays the sample names:
 ``` r
-ggplot() + geom_dendro(clust, axis.labels = F)
+ggplot() + geom_dendro(colclus, axis.labels = F)
 ```
 <img src="readme_files/dendro_nolabels.png"/>
 
-# Custom dendrogram
 You can change the dendrogram in the same way that you would also change a geom_path object. Specifically you can change color, size, linetype and lineend. 
 Possible options for linetype are: solid (default), dotted, dotdash, twodash, dashed, longdash, blank.
 ``` r
-ggplot() + geom_dendro(clust, size=2, color="blue", linetype="dashed")
+ggplot() + geom_dendro(colclus, size=2, color="blue", linetype="dashed")
 ```
 <img src="readme_files/dendro_custom.png"/>
 
 The lineend arguement introduces suttle changes, effecting only how the ends of the lines look.
 Possible options are: butt (default), square, round.
 ``` r
-ggplot() + geom_dendro(clust, size=4, lineend="round")
+ggplot() + geom_dendro(colclus, size=4, lineend="round")
 ```
 <img src="readme_files/dendro_custom2.png"/>
