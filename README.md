@@ -41,6 +41,7 @@ hmplot <- ggplot() +
   
 print(hmplot)
 ```
+<img src="readme_files/dendro_heatmap.png"/>
 
 ggdendroplot also comes with a small function that provides a nice colouring for the heatmap (ggplot's scale_fill_gradient2 could also be used, but its blue turns purple midway through for some reason). When we use it in ggplot's scale_fill_gradientn function and define limits that have its middle at 0, the colors will provide good indication of the cells value.
 
@@ -49,7 +50,7 @@ hmplot <- hmplot + scale_fill_gradientn(colors=hmGradient(), limits=c(-4,4))
 
 print(hmplot)
 ```
-<img src="readme_files/dendro_heatmap.png"/>
+<img src="readme_files/dendro_heatmap1.png"/>
 
 When we simply add the dendrogram to the plot, we see that it is not in the correct place. We can move it up by specifying the ylim arguement.
 ``` r
