@@ -13,6 +13,7 @@
 #' @param ylim vector with 2 numbers, on the y axis the dendrogram will beginn at the first number and end at the second.
 #' @param pointing string, either "side" or "updown" (default) to indicate where the dendrogram should point.
 #' @param axis.labels boolean, whether or not the axis should show the column names of data. This adds another layer to define the axis labels.
+#' @param failsafe, boolean, if TRUE prevents the user from reversing the order of the dendrogram. That is solely because the hmReady function provides a data.frame the will have x and y values according to the original order of the dendrogram.
 #' @return a list of several ggplot2 layer objects (geom_path for the dendrogram) that can directly be added to a ggplot2 object
 #' @details the function uses geom_path for the dendrogram, so ... takes all arguements that geom_path would also take, such as color, size, etc.
 #' @export
@@ -45,8 +46,13 @@
 #' ggplot() + geom_dendro(clust, size=4, lineend="round")
 #' ggplot() + geom_dendro(clust, axis.labels = F)
 #'
-geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.labels=TRUE, ...){
+geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.labels=TRUE, failsafe=TRUE, ...){
 
+  if(failsafe){
+    warningMessage <- "values would reverse the dendrogram order. The coordinates of the hmReady output will not match. If you want to proceede anyway turn the failsafe arguement to FALSE."
+    if(xlim[2]-xlim[1]<0 & pointing %in% "updown") stop(paste("The chosen xlim", warningMessage))
+    if(ylim[2]-ylim[1]<0 & pointing %in% "side") stop(paste("The chosen ylim", warningMessage))
+  }
   #perform the clustering and calculation to get a list of data.frames that can individually be plotted via geom_path
   calc <- .plotcalculation(clust=clust, xlim=xlim, ylim=ylim, pointing=pointing)
   dendro <- calc[["dendro"]] #list of geom_path objects for the dendrogram
