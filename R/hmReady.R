@@ -43,8 +43,8 @@ hmReady <- function(df, rowclus=NULL, colclus=NULL){
   
   df2 <- cbind(rowid=rownames(df), df)
   df2 <- reshape2::melt(df2, id.vars="rowid")
-  df2$y <- rowToNumber[as.character(df2$rowid)]
   df2$x <- colToNumber[as.character(df2$variable)]
+  df2$y <- rowToNumber[as.character(df2$rowid)]
   
   return(df2)
 }
