@@ -38,6 +38,14 @@ hm <- hmReady(df, colclus=colclus, rowclus=rowclus)
 hmplot <- ggplot() + 
   geom_tile(data=hm, aes(x=x, y=y, fill=value)) +
   theme(axis.text.x=element_text(angle=45, hjust=1))
+  
+print(hmplot)
+```
+
+ggdendroplot also comes with a small function that provides a nice colouring for the heatmap (ggplot's scale_fill_gradient2 could also be used, but its blue turns purple midway through for some reason). When we use it in ggplot's scale_fill_gradientn function and define limits that have its middle at 0, the colors will provide good indication of the cells value.
+
+``` r
+hmplot <- hmplot + scale_fill_gradientn(colors=hmGradient(), limits=c(-4,4))
 
 print(hmplot)
 ```
@@ -57,6 +65,7 @@ hmplot +
   geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side")
 ```
 <img src="readme_files/dendro_heatmap4.png"/>
+
 
 # Custom dendrogram
 
