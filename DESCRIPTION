@@ -2,7 +2,7 @@ Package: ggdendroplot
 Type: Package
 Title: Create dendrograms for ggplot2
 Depends: R (>= 3.6.0)
-Imports: ggplot2 (>= 3.3.1), reshape2 (>= 1.4.4)
+Imports: ggplot2 (>= 3.3.1), reshape2 (>= 1.4.4), grDevices
 Version: 0.1.0
 Author: Nicolas Huber
 Maintainer: Nicolas Huber <info.huber@aol.de>
