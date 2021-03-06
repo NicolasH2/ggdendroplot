@@ -53,8 +53,8 @@ hmplot + geom_dendro(colclus, ylim=c(17,20))
 We can add a second dendrogram that shows the clustering of the rows. For that we have to speficy that it is pointing sideways.
 ``` r
 hmplot + 
-  geom_dendro(colclus, ylim=c(17,20)) +
-  geom_dendro(rowclus, xlim=c(9,11), pointing="side")
+  geom_dendro(colclus, ylim=c(17, 20)) +
+  geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side")
 ```
 <img src="readme_files/dendro_heatmap4.png"/>
 
