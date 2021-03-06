@@ -50,8 +50,8 @@ geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", axis.lab
 
   if(failsafe){
     warningMessage <- "values would reverse the dendrogram order. The coordinates of the hmReady output will not match. If you want to proceede anyway turn the failsafe arguement to FALSE."
-    if(xlim[2]-xlim[1]<0 & pointing %in% "updown") stop(paste("The chosen xlim", warningMessage))
-    if(ylim[2]-ylim[1]<0 & pointing %in% "side") stop(paste("The chosen ylim", warningMessage))
+    if(!is.null(xlim)){ if(xlim[2]-xlim[1]<0 & pointing %in% "updown") stop(paste("The chosen xlim", warningMessage)) }
+    if(!is.null(ylim)){ if(ylim[2]-ylim[1]<0 & pointing %in% "side") stop(paste("The chosen ylim", warningMessage)) }
   }
   #perform the clustering and calculation to get a list of data.frames that can individually be plotted via geom_path
   calc <- .plotcalculation(clust=clust, xlim=xlim, ylim=ylim, pointing=pointing)
