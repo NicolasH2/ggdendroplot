@@ -36,8 +36,10 @@ hmReady <- function(df, rowclus=NULL, colclus=NULL){
     colsort <- colclus$labels[colclus$order]
   }
   
-  rowToNumber <- seq(nrow(df)) %>% `names<-`(rowsort)
-  colToNumber <- seq(ncol(df)) %>% `names<-`(colsort)
+  rowToNumber <- seq(nrow(df))
+  names(rowToNumber) <- rowsort
+  colToNumber <- seq(ncol(df))
+  names(colToNumber) <- colsort
   
   df2 <- cbind(rowid=rownames(df), df)
   df2 <- reshape2::melt(df2, id.vars="rowid")
