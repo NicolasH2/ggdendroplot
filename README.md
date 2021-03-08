@@ -35,9 +35,7 @@ Here we only use the column clustering (colclus) as a simple example.
 ``` r
 hm <- hmReady(df, colclus=colclus, rowclus=rowclus)
 
-hmplot <- ggplot() + 
-  geom_tile(data=hm, aes(x=x, y=y, fill=value)) +
-  theme(axis.text.x=element_text(angle=45, hjust=1))
+hmplot <- ggplot() + geom_tile(data=hm, aes(x=x, y=y, fill=value))
   
 print(hmplot)
 ```
@@ -67,6 +65,31 @@ hmplot +
 ```
 <img src="readme_files/dendro_heatmap4.png"/>
 
+Lastly, we can set the expand options, get rid of the axis titles and adjust the top dendrogram a little (ylim).
+
+```r
+hmplot + 
+  geom_dendro(colclus, ylim=c(16.5, 20)) +
+  geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side") +
+  scale_x_continuous(expand=c(0,0), breaks=hm$x, labels=hm$variable) +
+  scale_y_continuous(expand=c(0,0), breaks=hm$y, labels=hm$rowid) +
+  theme(axis.title=element_blank())
+```
+<img src="readme_files/dendro_heatmap5.png"/>
+
+All in all, our code for the heatmap plus dendrograms looks like this:
+
+```r
+ggplot() + 
+  geom_tile(data=hm, aes(x=x, y=y, fill=value)) +                      #heatmap
+  scale_fill_gradientn(colors=hmGradient(), limits=c(-4,4)) +          #options for heatmap
+  geom_dendro(colclus, ylim=c(16.5, 20)) +                             #upper dendrogram
+  geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side") +             #side dendrogram
+  scale_x_continuous(expand=c(0,0), breaks=hm$x, labels=hm$variable) + #design
+  scale_y_continuous(expand=c(0,0), breaks=hm$y, labels=hm$rowid) +    #design
+  theme_hm()+                                                          #design
+  theme(axis.title=element_blank())                                    #design
+```
 
 # Custom dendrogram
 You can tell ggdendroplot to color the clusters according to how they group on a certain level. Imagine a horizonal line being drawn: every cluster below that line has the same color as the cluster it originated from at that line. The integer you provide refers to the cluster level, so for this example we select the 5th cluster, counting from bottom to top.
