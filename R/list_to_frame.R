@@ -27,6 +27,8 @@ list_to_frame <- function(setlist){
   l2 <- as.matrix(l2)
   l2[is.na(l2)] <- 0
   l2 <- as.data.frame(l2)
+  rownames(l2) <- l2$item
+  l2$item <- NULL
 
   return(l2)
 }
