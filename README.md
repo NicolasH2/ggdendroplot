@@ -99,7 +99,7 @@ You can customize the colors if you want.
 
 ``` r
 ggplot() + geom_dendro(colclus, dendrocut=5)
-ggplot() + geom_dendro(colclus, dendrocut=5, groupCols=c("green","orange","gray20","purple"))
+ggplot() + geom_dendro(colclus, dendrocut=5, groupCols=c("green","orange","gray20"))
 ```
 <img src="readme_files/dendro_color.png"/>
 
