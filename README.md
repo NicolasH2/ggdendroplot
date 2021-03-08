@@ -8,7 +8,7 @@ devtools::install_github("solatar/ggdendroplot")
 ```
 
 # Default dendrogram
-First we need  a matrix/data.frame that has column names if you want to cluster the columns, and rownames if you want to cluster the rows. If you start from a setlist (a list of charachter vectors), you can use the <b>list_to_frame function<\b>, as long as each item in that list has a name. Here we build a random example matrix, called df. We use the functions dist and hclust from base R to get hclust objects. We cluster rows (rowclus) and columns (colclus) individually. You can change the distance matrix and also clustering algorithm by checking out the respective functions' help pages (?dist and ?hclust).
+First we need  a matrix/data.frame that has column names if you want to cluster the columns, and rownames if you want to cluster the rows. If you start from a setlist (a list of charachter vectors), you can use the <b>list_to_frame function</b>, as long as each item in that list has a name. Here we build a random example matrix, called df. We use the functions dist and hclust from base R to get hclust objects. We cluster rows (rowclus) and columns (colclus) individually. You can change the distance matrix and also clustering algorithm by checking out the respective functions' help pages (?dist and ?hclust).
 Then we can directly take one of these clusterings and vizualize a dendrogram from it.
 ``` r
 library(ggdendroplot)
