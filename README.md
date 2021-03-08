@@ -1,6 +1,8 @@
 # ggdendroplot
 An [R](https://www.r-project.org) package that draws highly modifiable dendrograms in [ggplot2](https://ggplot2.tidyverse.org/). The dendrogram can easily be modified and added to an existing ggplot object. ggdendroplot takes as an input the output of the R [stats](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/stats-package.html) function hclust(). It vizualizes the clustering using ggplot2's geom_path layers.
 
+<img src="readme_files/dendro_heatmap5.png"/>
+
 # Installation
 Install the package from the git repository:
 ``` r
@@ -65,7 +67,7 @@ hmplot +
 ```
 <img src="readme_files/dendro_heatmap4.png"/>
 
-Lastly, we can set the expand options, get rid of the axis titles and adjust the top dendrogram a little (ylim).
+Lastly, we can set the expand options and get rid of the axis titles.
 
 ```r
 hmplot + 
