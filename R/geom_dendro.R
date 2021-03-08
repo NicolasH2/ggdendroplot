@@ -24,30 +24,46 @@
 #' library(ggplot2)
 #'
 #' #test data.frame
-#' df <- matrix(rnorm(128), ncol = 8)
-#' colnames(df) <- paste0("a",seq(ncol(df)))
+#' df <- matrix(c(rnorm(64, mean=0), rnorm(64, mean=1)), ncol = 8, dimnames=list(
+#'   rownames=paste0("trait",seq(16)),
+#'   colnames=paste0("sample",seq(8))
+#' ))
 #'
-#' #calculate a distance matrix and perform hierarchical clustering
-#' distmatrix <- dist(t(df))
-#' clust <- hclust(distmatrix)
+#' #calculate a distance matrix and perform hierarchical clustering and rows and/or columns
+#' rowclus <- hclust(dist( df ))
+#' colclus <- hclust(dist( t(df) ))
 #'
 #' #produce the graph
-#' ggplot() + geom_dendro(clust)
+#' ggplot() + 
+#'   geom_dendro(colclust)
 #'
-#' #you can access the default label order from clust.
-#' clust$labels[clust$order]
+#' #add a heatmap
+#' ggplot() + 
+#'   geom_tile(data=hm, aes(x=x, y=y, fill=value)) +
+#'   geom_dendro(colclus, ylim=c(16.5, 20))
 #'
-#' Note that in geom_dendro, this order is reversed if the limits are defined accordingly (if the first number is greater than the second), e.g.:
-#' ggplot() + geom_dendro(clust, xlim=c(3,0))
+#' #make it pretty
+#' ggplot() + 
+#'   geom_tile(data=hm, aes(x=x, y=y, fill=value)) +
+#'   scale_fill_gradientn(colors=hmGradient(), limits=c(-4,4)) + 
+#'   geom_dendro(colclus, ylim=c(16.5, 20), dendrocut=6, groupCols = c("red","blue","black")) +
+#'   geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side", dendrocut=10) + 
+#'   scale_x_continuous(expand=c(0,0), breaks=hm$x, labels=hm$variable) + 
+#'   scale_y_continuous(expand=c(0,0), breaks=hm$y, labels=hm$rowid) +
+#'   theme_hm()+ 
+#'   theme(axis.title=element_blank()) 
+#'
+#' #Note that in geom_dendro, this order is reversed if the limits are defined accordingly (if the first number is greater than the second), e.g.:
+#' ggplot() + geom_dendro(colclust, xlim=c(3,0))
 #'
 #' #=================================
 #' #other plot examples
-#' ggplot() + geom_dendro(clust, pointing="side")
-#' ggplot() + geom_dendro(clust, ylim=c(3,0))
-#' ggplot() + geom_dendro(clust, size=2, color="blue", linetype="dashed")
-#' ggplot() + geom_dendro(clust, size=4, lineend="round")
-#' ggplot() + geom_dendro(clust, axis.labels = F)
-#'
+#' ggplot() + geom_dendro(colclust, pointing="side")
+#' ggplot() + geom_dendro(colclust, ylim=c(3,0))
+#' ggplot() + geom_dendro(colclust, size=2, color="blue", linetype="dashed")
+#' ggplot() + geom_dendro(colclust, size=4, lineend="round")
+#' ggplot() + geom_dendro(colclust, axis.labels = F)
+#'  
 geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", dendrocut=NULL, groupCols=NULL, axis.labels=TRUE, failsafe=TRUE, ...){
   
   if(failsafe){
