@@ -1,5 +1,5 @@
 # ggdendroplot
-An [R](https://www.r-project.org) package that draws highly modifiable dendrograms in [ggplot2](https://ggplot2.tidyverse.org/). The dendrogram can easily be modified and added to an existing ggplot object. ggdendroplot takes as an input the output of the R [stats](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/stats-package.html) function hclust(). It vizualizes the clustering using ggplot2's geom_path layers. If you prefer hierarchical clustering ggdendroplot also works with the output of the bclust function of the [bclust](https://bclust.r-forge.r-project.org/) package (download [here](https://github.com/cran/bclust)).
+An [R](https://www.r-project.org) package that draws highly modifiable dendrograms in [ggplot2](https://ggplot2.tidyverse.org/). The dendrogram can easily be modified and added to an existing ggplot object. ggdendroplot takes as an input the output of the R [stats](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/stats-package.html) function hclust(). It vizualizes the clustering using ggplot2's geom_path layers. If you prefer bayesian hierarchical clustering, ggdendroplot also works with the output of the bclust function of the [bclust](https://bclust.r-forge.r-project.org/) package (download [here](https://github.com/cran/bclust)).
 
 <img src="readme_files/dendro_heatmap6.png"/>
 
