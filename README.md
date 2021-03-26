@@ -104,8 +104,6 @@ ggplot() +
   scale_fill_gradientn(colors=hmGradient(), limits=c(-4,4)) +          #options for heatmap
   geom_dendro(colclus, ylim=c(16.5, 20)) +                             #upper dendrogram
   geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side") +             #side dendrogram
-  scale_x_continuous(expand=c(0,0), breaks=hm$x, labels=hm$variable) + #design
-  scale_y_continuous(expand=c(0,0), breaks=hm$y, labels=hm$rowid) +    #design
   theme_hm()+                                                          #design
   theme(axis.title=element_blank())                                    #design
 ```
