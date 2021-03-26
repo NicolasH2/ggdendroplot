@@ -99,7 +99,7 @@ hmplot +
 ```
 <img src="readme_files/dendro_heatmap4.png"/>
 
-Lastly, we can set the expand options and get rid of the axis titles. ggdendroplot also provides the theme_hm() function that sets some vizual options in ggplot.
+Lastly, we can set the expand options and get rid of the axis titles. ggdendroplot also provides the theme_hm() function that sets some vizual options in ggplot. The full code for our plot looks like this:
 
 ```r
 ggplot() + 
@@ -132,10 +132,11 @@ colclus <- hclust(distmat) #cluster the columns
 dm <- hmReady( as.matrix(distmat) )
 
 # plot the distance matrix
-dmplot <- ggplot() + geom_tile(data=dm, aes(x=x, y=y, fill=value)) + 
-  geom_dendro(colclus, ylim=c(8.5, 10)) +
-  geom_dendro(colclus, xlim=c(8.5, 10), pointing="side") +
-  theme_hm()
+dmplot <- ggplot() + 
+  geom_tile(data=dm, aes(x=x, y=y, fill=value)) +           #distance matrix
+  geom_dendro(colclus, ylim=c(8.5, 10)) +                   #upper dendrogram
+  geom_dendro(colclus, xlim=c(8.5, 10), pointing="side") +  #side dendrogram
+  theme_hm()                                                #design
   
 print(dmplot)
 ```
