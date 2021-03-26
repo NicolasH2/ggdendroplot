@@ -1,6 +1,6 @@
-- [Default Dendrogram](#"Default Dendrogram")
+- [Default Dendrogram](#Default-Dendrogram)
 - [Heatmaps](#Heatmaps)
-- [Distance Matrices](#Distance Matrices)
+- [Distance Matrices](#Distance-Matrices)
 - [Customization](#Customization)
 
 # ggdendroplot
