@@ -125,7 +125,7 @@ df <- matrix(c(rnorm(64, mean=0), rnorm(64, mean=1)), ncol = 8, dimnames=list(
 ))
 
 # perform hierarchical clustering
-distmat <- dist( t(df))
+distmat <- dist( t(df) )
 colclus <- hclust(distmat) #cluster the columns
 
 dm <- hmReady( as.matrix(distmat) )
