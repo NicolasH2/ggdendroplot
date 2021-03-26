@@ -102,9 +102,17 @@ geom_dendro <- function(clust, xlim=NULL, ylim=NULL, pointing="updown", dendrocu
   
   #if desired by the user, define axis labels for x or y axis, depending on if the dendrogram points down/up or sideways
   if(axis.labels){
-    ggplotlabel <- switch(pointing,
-                          "side"   = ggplot2::scale_x_continuous(breaks=plotlabels$x, labels=plotlabels$label, expand=c(0,0)),
-                          "updown" = ggplot2::scale_y_continuous(breaks=plotlabels$y, labels=plotlabels$label, expand=c(0,0)))
+    if(pointing %in% "updown"){
+      ggplotlabel <- list(
+        ggplot2::scale_x_continuous(breaks=plotlabels$x, labels=plotlabels$label),
+        ggplot2::scale_y_continuous(expand=c(0,0))
+      )
+    }else{
+      ggplotlabel <- list(
+        ggplot2::scale_y_continuous(breaks=plotlabels$y, labels=plotlabels$label),
+        ggplot2::scale_x_continuous(expand=c(0,0))
+      )
+    }
     
     output <- c(output, ggplotlabel) #combine the dendrogram with the axis label information
   }
