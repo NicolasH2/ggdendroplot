@@ -96,19 +96,7 @@ hmplot +
 ```
 <img src="readme_files/dendro_heatmap4.png"/>
 
-Lastly, we can set the expand options and get rid of the axis titles.
-
-```r
-hmplot + 
-  geom_dendro(colclus, ylim=c(16.5, 20)) +
-  geom_dendro(rowclus, xlim=c(8.5, 10), pointing="side") +
-  scale_x_continuous(expand=c(0,0), breaks=hm$x, labels=hm$variable) +
-  scale_y_continuous(expand=c(0,0), breaks=hm$y, labels=hm$rowid) +
-  theme(axis.title=element_blank())
-```
-<img src="readme_files/dendro_heatmap5.png"/>
-
-ggdendroplot also provides the theme_hm() function that sets some vizual options in ggplot.
+Lastly, we can set the expand options and get rid of the axis titles. ggdendroplot also provides the theme_hm() function that sets some vizual options in ggplot.
 
 ```r
 ggplot() + 
@@ -122,9 +110,12 @@ ggplot() +
   theme(axis.title=element_blank())                                    #design
 ```
 
+<img src="readme_files/dendro_heatmap5.png"/>
+
+
 # Distance Matrices
 
-To vizualize how far away samples (columns) are away from each other, measured by their features (rows) we can plot a distance matrix.
+To vizualize how far away samples (columns) are away from each other, measured by their features (rows) we can plot a distance matrix. This time, we use the distance matrix as an input for hmReady. We plot 2x the column-cluster dendrogram, once for the top and once for the side.
 
 ```r
 # test data.frame, with columns drawing values from 2 different standard distributions
