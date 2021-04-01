@@ -3,7 +3,6 @@
 #' Imports:
 #' ggplot2
 #'
-#' @inheritParams ggplot2::geom_path
 #' @import ggplot2
 #'
 #' @return a ggplot layer that can be added to a ggplot object
@@ -13,14 +12,14 @@
 #'   geom_point() +
 #'   theme_hm()
 #'
-theme_hm <- function(hmReady){
+theme_hm <- function(){
   return(
     ggplot2::theme(
-      panel.grid =       ggplot2::element_blank(),
-      panel.background = ggplot2::element_blank(),
-      axis.ticks =       ggplot2::element_blank(),
-      axis.text.y =      ggplot2::element_text( color="black" ),
-      axis.text.x =      ggplot2::element_text( angle=45, hjust=1, color="black" )
+      panel.grid =       element_blank(),
+      panel.background = element_blank(),
+      axis.ticks =       element_blank(),
+      axis.text.y =      element_text( color="black" ),
+      axis.text.x =      element_text( angle=45, hjust=1, color="black" )
     )
   )
 }
