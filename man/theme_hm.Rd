@@ -4,7 +4,7 @@
 \alias{theme_hm}
 \title{applies a heatmap-friendly theme to ggplot}
 \usage{
-theme_hm(hmReady)
+theme_hm()
 }
 \value{
 a ggplot layer that can be added to a ggplot object

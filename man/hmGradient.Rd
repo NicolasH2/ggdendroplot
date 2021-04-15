@@ -4,7 +4,13 @@
 \alias{hmGradient}
 \title{creates a heatmap-ready data.frame}
 \usage{
-hmGradient(highcol = "red", midcol = "white", lowcol = "blue", n = 100)
+hmGradient(
+  highcol = "red",
+  midcol = "white",
+  lowcol = "blue",
+  bend = 1,
+  n = 100
+)
 }
 \arguments{
 \item{highcol}{string, color of your choice for high values}
@@ -12,6 +18,8 @@ hmGradient(highcol = "red", midcol = "white", lowcol = "blue", n = 100)
 \item{midcol}{string, color of your choice for middle values}
 
 \item{lowcol}{string, color of your choice for low values}
+
+\item{bend}{integer, bends the color scale so that the middle color takes up less space the higher the bend value is}
 
 \item{n}{integer, half this number is used as an input for the colorRampPalette function for each gradient (high to mid and mid to low)}
 }
