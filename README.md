@@ -129,7 +129,7 @@ df <- matrix(c(rnorm(64, mean=0), rnorm(64, mean=1)), ncol = 8, dimnames=list(
 distmat <- dist( t(df) )
 colclus <- hclust(distmat) #cluster the columns
 
-dm <- hmReady( as.matrix(distmat) )
+dm <- hmReady( as.matrix(distmat), colclus=colclus, rowclus=colclus ) #we use our column clustering for both row and col clustering
 
 # plot the distance matrix
 dmplot <- ggplot() + 
